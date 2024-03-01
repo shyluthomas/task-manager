@@ -19,8 +19,8 @@ export const updateTaskSchema = z.object({
   }),
 });
 
-export const getEventSchema = z.object({
+export const getTaskSchema = z.object({
   params: z.object({
-    id: z.number({ required_error: "Task id is required" }),
+    id: z.string({ required_error: "Task id is required" }),
   }),
 });

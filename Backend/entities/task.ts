@@ -28,7 +28,11 @@ export const taskEntity = {
   },
   getTasks: async (): Promise<TaskListDto | null> => {
     try {
-      const tasks = await prisma.task.findMany();
+      const tasks = await prisma.task.findMany({
+        orderBy: {
+          id: "asc",
+        },
+      });
       return tasks;
     } catch (e) {
       console.log(e);
@@ -51,6 +55,31 @@ export const taskEntity = {
           description: event.description,
         },
       });
+    } catch (e) {
+      result = null;
+      status = statusCode.HTTP_NOTFOUND;
+    }
+
+    return { task: result, status: status };
+  },
+  deleteTask: async (id: number): Promise<createTaskResponseDto> => {
+    let result;
+    let status = statusCode.HTTP_SUCESS_CREATED;
+    try {
+      result = await prisma.task.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      if (result) {
+        await prisma.task.delete({
+          where: {
+            id: id,
+          },
+        });
+      } else {
+        status = statusCode.HTTP_NOTFOUND;
+      }
     } catch (e) {
       result = null;
       status = statusCode.HTTP_NOTFOUND;

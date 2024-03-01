@@ -1,5 +1,5 @@
 import express from "express";
-import { createTaskSchema, updateTaskSchema } from "../schemas";
+import { createTaskSchema, getTaskSchema, updateTaskSchema } from "../schemas";
 import { requestValidator } from "../middlewares";
 import { taskController } from "../controllers";
 import { ListTaskResponseDto, TaskDto } from "../types/taskDto";
@@ -31,11 +31,13 @@ taskRoutes.patch(
     const id = req.params.id as string;
     const data = req.body as TaskDto;
     const response = await taskController.updateTask(parseInt(id, 10), data);
-    res.status(200).send(response);
+    res.status(response.status).send(response);
   }
 );
 
 /* Delete task */
-taskRoutes.delete("/", async (req, res) => {
-  console.log("/delete task");
+taskRoutes.delete("/:id", requestValidator(getTaskSchema), async (req, res) => {
+  const id = req.params.id as string;
+  const response = await taskController.deleteTask(parseInt(id, 10));
+  res.status(response.status).send(response);
 });

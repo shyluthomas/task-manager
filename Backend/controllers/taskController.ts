@@ -35,4 +35,11 @@ export const taskController = {
     }
     return { status: statusCode.HTTP_SUCESS, task: response.task };
   },
+  deleteTask: async (id: number): Promise<createTaskResponseDto> => {
+    const response: createTaskResponseDto = await taskEntity.deleteTask(id);
+    if (!response) {
+      return { status: statusCode.HTTP_NOTFOUND, task: null };
+    }
+    return { status: response.status, task: response.task };
+  },
 };
