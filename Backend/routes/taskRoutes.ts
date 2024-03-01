@@ -2,16 +2,20 @@ import express from "express";
 import { createTaskSchema } from "../schemas";
 import { requestValidator } from "../middlewares";
 import { taskController } from "../controllers";
+import { ListTaskResponseDto } from "../types/taskDto";
 
 export const taskRoutes = express.Router();
 
-/* getting Events */
-taskRoutes.get("/", async (req, res) => {});
+/* getting tasks */
+taskRoutes.get("/", async (req, res) => {
+  const response: ListTaskResponseDto = await taskController.getTask();
+  res.status(response.status).send(response);
+});
 
-/* getting Event by ID */
+/* getting task by ID */
 taskRoutes.get("/:id", async (req, res) => {});
 
-/* Create Events */
+/* Create task */
 taskRoutes.post("/", requestValidator(createTaskSchema), async (req, res) => {
   const response = await taskController.createTask(req.body);
   if (response) {
@@ -19,10 +23,10 @@ taskRoutes.post("/", requestValidator(createTaskSchema), async (req, res) => {
   }
 });
 
-/* Update Events by ID */
+/* Update task by ID */
 taskRoutes.patch("/:id", async (req, res) => {});
 
-/* Delete Events */
+/* Delete task */
 taskRoutes.delete("/", async (req, res) => {
   console.log("/delete task");
 });

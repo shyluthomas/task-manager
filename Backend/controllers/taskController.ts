@@ -1,5 +1,11 @@
 import { taskEntity } from "../entities/task";
-import { TaskCreateDto, createTaskResponseDto } from "../types/taskDto";
+import { statusCode } from "../lib";
+import {
+  ListTaskResponseDto,
+  TaskCreateDto,
+  TaskListDto,
+  createTaskResponseDto,
+} from "../types/taskDto";
 
 export const taskController = {
   createTask: async (task: TaskCreateDto): Promise<createTaskResponseDto> => {
@@ -11,5 +17,12 @@ export const taskController = {
       return { task: null, status: 400 };
     }
     return response;
+  },
+  getTask: async (): Promise<ListTaskResponseDto> => {
+    const response: TaskListDto | null = await taskEntity.getTasks();
+    if (!response) {
+      return { status: statusCode.HTTP_NOTFOUND, task: null };
+    }
+    return { status: statusCode.HTTP_SUCESS, task: response };
   },
 };

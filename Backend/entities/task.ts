@@ -1,6 +1,10 @@
 import { statusCode } from "../lib";
 import { prisma } from "../lib/dbcon";
-import { TaskCreateDto, createTaskResponseDto } from "../types/taskDto";
+import {
+  TaskCreateDto,
+  TaskListDto,
+  createTaskResponseDto,
+} from "../types/taskDto";
 
 export const taskEntity = {
   createTask: async (task: TaskCreateDto): Promise<createTaskResponseDto> => {
@@ -21,5 +25,14 @@ export const taskEntity = {
     }
 
     return { task: result, status: status };
+  },
+  getTasks: async (): Promise<TaskListDto | null> => {
+    try {
+      const tasks = await prisma.task.findMany();
+      return tasks;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   },
 };

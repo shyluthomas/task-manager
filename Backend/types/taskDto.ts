@@ -18,7 +18,7 @@ type Success = {
   status: number;
 };
 type taskAlreadyExists = {
-  task: TaskGetDto;
+  task: null;
   status: number;
 };
 export type taskError = {
@@ -26,9 +26,9 @@ export type taskError = {
   status: number;
 };
 export type createTaskResponseDto = Success | taskAlreadyExists | taskError;
-
-export type TaskListDto = TaskGetDto &
-  {
-    status: boolean;
-  }[];
-export type ListTaskResponseDto = Success | taskError;
+export type TaskListDto = TaskGetDto[];
+type SuccessList = {
+  task: TaskListDto;
+  status: number;
+};
+export type ListTaskResponseDto = SuccessList | taskError;
