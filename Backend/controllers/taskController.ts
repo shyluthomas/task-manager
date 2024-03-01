@@ -25,4 +25,14 @@ export const taskController = {
     }
     return { status: statusCode.HTTP_SUCESS, task: response };
   },
+  updateTask: async (id: number, data: any): Promise<createTaskResponseDto> => {
+    const response: createTaskResponseDto = await taskEntity.updateTask(
+      id,
+      data
+    );
+    if (!response) {
+      return { status: statusCode.HTTP_NOTFOUND, task: null };
+    }
+    return { status: statusCode.HTTP_SUCESS, task: response.task };
+  },
 };

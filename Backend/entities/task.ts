@@ -35,4 +35,27 @@ export const taskEntity = {
       return null;
     }
   },
+  updateTask: async (
+    id: number,
+    event: TaskCreateDto
+  ): Promise<createTaskResponseDto> => {
+    let result;
+    let status = statusCode.HTTP_SUCESS_CREATED;
+    try {
+      result = await prisma.task.update({
+        where: {
+          id: id,
+        },
+        data: {
+          title: event.title,
+          description: event.description,
+        },
+      });
+    } catch (e) {
+      result = null;
+      status = statusCode.HTTP_NOTFOUND;
+    }
+
+    return { task: result, status: status };
+  },
 };

@@ -1,8 +1,8 @@
 import express from "express";
-import { createTaskSchema } from "../schemas";
+import { createTaskSchema, updateTaskSchema } from "../schemas";
 import { requestValidator } from "../middlewares";
 import { taskController } from "../controllers";
-import { ListTaskResponseDto } from "../types/taskDto";
+import { ListTaskResponseDto, TaskDto } from "../types/taskDto";
 
 export const taskRoutes = express.Router();
 
@@ -24,7 +24,16 @@ taskRoutes.post("/", requestValidator(createTaskSchema), async (req, res) => {
 });
 
 /* Update task by ID */
-taskRoutes.patch("/:id", async (req, res) => {});
+taskRoutes.patch(
+  "/:id",
+  requestValidator(updateTaskSchema),
+  async (req, res) => {
+    const id = req.params.id as string;
+    const data = req.body as TaskDto;
+    const response = await taskController.updateTask(parseInt(id, 10), data);
+    res.status(200).send(response);
+  }
+);
 
 /* Delete task */
 taskRoutes.delete("/", async (req, res) => {
