@@ -42,4 +42,13 @@ export const taskController = {
     }
     return { status: response.status, task: response.task };
   },
+  getTaskById: async (id: number): Promise<createTaskResponseDto> => {
+    const response: createTaskResponseDto | null = await taskEntity.getTaskById(
+      id
+    );
+    if (!response) {
+      return { status: statusCode.HTTP_NOTFOUND, task: null };
+    }
+    return { status: statusCode.HTTP_SUCESS, task: response.task };
+  },
 };

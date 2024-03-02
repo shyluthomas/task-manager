@@ -87,4 +87,19 @@ export const taskEntity = {
 
     return { task: result, status: status };
   },
+  getTaskById: async (id: number): Promise<createTaskResponseDto> => {
+    let result;
+    let status = statusCode.HTTP_SUCESS_CREATED;
+    try {
+      result = await prisma.task.findUnique({
+        where: {
+          id: id,
+        },
+      });
+    } catch (e) {
+      result = null;
+      status = statusCode.HTTP_NOTFOUND;
+    }
+    return { task: result, status: status };
+  },
 };

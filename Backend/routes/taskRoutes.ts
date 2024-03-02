@@ -13,7 +13,11 @@ taskRoutes.get("/", async (req, res) => {
 });
 
 /* getting task by ID */
-taskRoutes.get("/:id", async (req, res) => {});
+taskRoutes.get("/:id", async (req, res) => {
+  const id = req.params.id as string;
+  const response = await taskController.getTaskById(parseInt(id, 10));
+  res.status(response.status).send(response);
+});
 
 /* Create task */
 taskRoutes.post("/", requestValidator(createTaskSchema), async (req, res) => {
