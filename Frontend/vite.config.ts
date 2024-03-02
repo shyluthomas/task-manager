@@ -10,6 +10,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    exclude: ['react-alert-dialog']
-  }
+    exclude: ["react-alert-dialog"],
+  },
 });

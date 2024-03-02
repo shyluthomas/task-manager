@@ -1,6 +1,7 @@
 import { Menubar, MenubarMenu, MenubarTrigger } from "@radix-ui/react-menubar";
+import { Toaster } from "@/components/ui/toaster";
 import { Outlet } from "react-router-dom";
-
+import ModalHOC from "./ModalHOC";
 
 const FullLayout = (): JSX.Element => {
   return (
@@ -11,18 +12,19 @@ const FullLayout = (): JSX.Element => {
             <div className="text-white text-2xl p-6">
               <span>Task Manager</span>
             </div>
-           
+
             <MenubarTrigger className="text-white text-xl p-6">
               Tasks
             </MenubarTrigger>
           </div>
-        
         </MenubarMenu>
       </Menubar>
       <Outlet></Outlet>
       <footer className="text-white text-center  p-8">
         <p>Copyright @Shylu 2024 All rights reserved</p>
       </footer>
+      <ModalHOC></ModalHOC>
+      <Toaster />
     </div>
   );
 };

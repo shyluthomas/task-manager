@@ -5,9 +5,7 @@ import TaskList from "@/pages/task/taskList";
 const Routes = [
   {
     path: "/",
-    element: (
-        <FullLayout />
-    ),
+    element: <FullLayout />,
     children: [
       {
         path: "/",
