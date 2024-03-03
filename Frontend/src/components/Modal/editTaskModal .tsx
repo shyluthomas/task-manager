@@ -46,7 +46,7 @@ export default function EditTaskModal({
 
   return (
     <div>
-      <Dialog open={data?.status}>
+      <Dialog open={data?.status} onOpenChange={toggle}>
         <DialogContent className="max-w-lg sm:max-w-[625px]">
           <form onSubmit={handleSubmit(submit)}>
             <DialogHeader>

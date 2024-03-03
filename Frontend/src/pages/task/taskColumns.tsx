@@ -4,19 +4,38 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { task } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useAppDispatch } from "@/hooks/hooks";
-import { setEditTask, setNewTask } from "@/store/reducers/taskReducer";
+import {
+  setConfirmationSate,
+  setDeleteTask,
+  setEditTask,
+} from "@/store/reducers/taskReducer";
 
-const EditButton = ({ id }: any): JSX.Element => {
+const ActionButton = ({ id }: any): JSX.Element => {
   const dispatch = useAppDispatch();
   return (
-    <Button
-      onClick={() => {
-        dispatch(setEditTask({ status: true, id }));
-      }}
-      className="p-2"
-    >
-      Edit
-    </Button>
+    <div className="flex gap-2">
+      <Button
+        onClick={() => {
+          dispatch(setEditTask({ status: true, id }));
+        }}
+        className="p-2"
+      >
+        edit
+      </Button>
+      <Button
+        onClick={() => {
+          const payload = {
+            status: true,
+            messgae: "Are you sure able to delete the item?",
+            okAction: { deleteAction: () => dispatch(setDeleteTask(id)) },
+          };
+          dispatch(setConfirmationSate(payload));
+        }}
+        className="p-2"
+      >
+        delete
+      </Button>
+    </div>
   );
 };
 
@@ -93,7 +112,7 @@ export const Taskcolumns: ColumnDef<task>[] = [
     header: "Action",
     cell: ({ row }) => {
       const id = row.original.id;
-      return <EditButton id={id}></EditButton>;
+      return <ActionButton id={id}></ActionButton>;
     },
   },
 ];

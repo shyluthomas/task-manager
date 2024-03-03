@@ -12,6 +12,8 @@ const initialState = {
     task: { published: false, title: "", description: "", id: 0 },
   },
   editTask: { status: false, task: undefined },
+  confirmationSate: { status: false, messgae: "", okAction: {} },
+  deleteTask: { status: false, id: undefined },
 };
 
 export const TaskSlice = createSlice({
@@ -43,6 +45,12 @@ export const TaskSlice = createSlice({
     updateTask: (state, action) => {
       state.editTask = action.payload;
     },
+    setConfirmationSate: (state, action) => {
+      state.confirmationSate = action.payload;
+    },
+    setDeleteTask: (state, action) => {
+      state.deleteTask = action.payload;
+    },
   },
 });
 export const {
@@ -55,5 +63,7 @@ export const {
   setEditTask,
   updateTaskData,
   updateTask,
+  setConfirmationSate,
+  setDeleteTask,
 } = TaskSlice.actions;
 export default TaskSlice.reducer;

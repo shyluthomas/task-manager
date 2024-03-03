@@ -20,4 +20,8 @@ export const taskService = {
     const response = await axiosAuth.patch(`${api}/task/${id}`, data);
     return response?.data.task;
   },
+  deleteTask: async (id: number): Promise<any> => {
+    const response = await axiosAuth.delete(`${api}/task/${id}`);
+    return response?.data;
+  },
 };

@@ -63,11 +63,29 @@ function* _updateTask(action: any): any {
   }
 }
 
+function* _setDeleteTask(action: any): any {
+  try {
+    const { payload } = action;
+    const taskDelete = yield taskService.deleteTask(payload);
+    if (taskDelete) {
+      yield put(task.fetchTaskList());
+      yield put(
+        task.setMessage({ status: true, body: "Task has been Deleted.." })
+      );
+      yield put(task.setConfirmationSate({ status: false, action: undefined }));
+    }
+  } catch (e) {
+    yield put(task.setMessage({ status: false, body: "Some network error.." }));
+    console.log(e);
+  }
+}
+
 function* mainSaga() {
   yield takeEvery(task.fetchTaskList, _fetchTaskList);
   yield takeEvery(task.setNewTask, _setNewTask);
   yield takeLatest(task.setEditTask, _setEditTask);
   yield takeLatest(task.updateTask, _updateTask);
+  yield takeLatest(task.setDeleteTask, _setDeleteTask);
 }
 
 export default mainSaga;

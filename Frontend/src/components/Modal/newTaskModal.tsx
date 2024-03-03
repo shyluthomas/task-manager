@@ -41,7 +41,7 @@ export default function NewTaskModal({ status, toggle }: modalProps) {
 
   return (
     <div>
-      <Dialog open={status}>
+      <Dialog open={status} onOpenChange={toggle}>
         <DialogContent className="max-w-lg sm:max-w-[625px]">
           <form onSubmit={handleSubmit(submit)}>
             <DialogHeader>
