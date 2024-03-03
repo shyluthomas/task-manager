@@ -6,6 +6,12 @@ const initialState = {
   newTask: false,
   dialog: { status: false, message: "" },
   message: { status: false, body: "" },
+  editTaskFetch: { id: undefined, status: false },
+  editTakData: {
+    status: 0,
+    task: { published: false, title: "", description: "", id: 0 },
+  },
+  editTask: { status: false, task: undefined },
 };
 
 export const TaskSlice = createSlice({
@@ -28,6 +34,15 @@ export const TaskSlice = createSlice({
     setMessage: (state, action) => {
       state.message = action.payload;
     },
+    setEditTask: (state, action) => {
+      state.editTaskFetch = action.payload;
+    },
+    updateTaskData: (state, action) => {
+      state.editTakData = action.payload;
+    },
+    updateTask: (state, action) => {
+      state.editTask = action.payload;
+    },
   },
 });
 export const {
@@ -37,5 +52,8 @@ export const {
   updateTaskList,
   setNewTaskTrigger,
   setMessage,
+  setEditTask,
+  updateTaskData,
+  updateTask,
 } = TaskSlice.actions;
 export default TaskSlice.reducer;

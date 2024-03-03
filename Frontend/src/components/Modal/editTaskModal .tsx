@@ -1,4 +1,3 @@
-import * as Yup from "yup";
 import {
   Dialog,
   DialogContent,
@@ -8,24 +7,29 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useAppDispatch } from "@/hooks/hooks";
-import { setNewTask } from "@/store/reducers/taskReducer";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { updateTask } from "@/store/reducers/taskReducer";
+import { editTask, editTaskData } from "@/types";
 
 type modalProps = {
-  status: boolean;
+  data?: editTask;
+  editTaskData: editTaskData;
   toggle: () => void;
 };
-export default function NewTaskModal({ status, toggle }: modalProps) {
-  const validationSchema = Yup.object().shape({
-    title: Yup.string().required("title is required"),
-    description: Yup.string().required("description is required"),
-  });
-
-  const formOptions = { resolver: yupResolver(validationSchema) };
+export default function EditTaskModal({
+  data,
+  editTaskData,
+  toggle,
+}: modalProps) {
+  const formOptions = {
+    defaultValues: {
+      title: editTaskData.task?.title,
+      description: editTaskData.task?.description,
+    },
+  };
   const {
     register,
     handleSubmit,
@@ -35,18 +39,19 @@ export default function NewTaskModal({ status, toggle }: modalProps) {
   const dispatch = useAppDispatch();
 
   const submit = (data: any) => {
-    dispatch(setNewTask(data));
+    const payload = { id: editTaskData?.task?.id, task: data };
+    dispatch(updateTask(payload));
     reset();
   };
 
   return (
     <div>
-      <Dialog open={status}>
+      <Dialog open={data?.status}>
         <DialogContent className="max-w-lg sm:max-w-[625px]">
           <form onSubmit={handleSubmit(submit)}>
             <DialogHeader>
-              <DialogTitle>Add Task</DialogTitle>
-              <DialogDescription>Create your task here</DialogDescription>
+              <DialogTitle>Update Task</DialogTitle>
+              <DialogDescription>Edit your task here</DialogDescription>
             </DialogHeader>
             <div className="w-9/8 grid gap-4 py-4">
               <div className="flex items-center gap-4 py-0">
@@ -82,7 +87,7 @@ export default function NewTaskModal({ status, toggle }: modalProps) {
             </div>
             <DialogFooter>
               <Button onClick={() => toggle()}>close</Button>
-              <Button type="submit">+ Add</Button>
+              <Button type="submit">Update</Button>
             </DialogFooter>
           </form>
         </DialogContent>

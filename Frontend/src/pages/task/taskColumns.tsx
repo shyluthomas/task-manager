@@ -3,6 +3,22 @@ import { CaretSortIcon } from "@radix-ui/react-icons";
 import { Checkbox } from "@/components/ui/checkbox";
 import { task } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { useAppDispatch } from "@/hooks/hooks";
+import { setEditTask, setNewTask } from "@/store/reducers/taskReducer";
+
+const EditButton = ({ id }: any): JSX.Element => {
+  const dispatch = useAppDispatch();
+  return (
+    <Button
+      onClick={() => {
+        dispatch(setEditTask({ status: true, id }));
+      }}
+      className="p-2"
+    >
+      Edit
+    </Button>
+  );
+};
 
 export const Taskcolumns: ColumnDef<task>[] = [
   {
@@ -76,15 +92,8 @@ export const Taskcolumns: ColumnDef<task>[] = [
     accessorKey: "id",
     header: "Action",
     cell: ({ row }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => console.log("first", row.id)}
-          className="p-0"
-        >
-          Edit
-        </Button>
-      );
+      const id = row.original.id;
+      return <EditButton id={id}></EditButton>;
     },
   },
 ];

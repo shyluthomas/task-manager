@@ -12,4 +12,12 @@ export const taskService = {
     const response = await axiosAuth.get(`${api}/task`);
     return response?.data.task;
   },
+  getTaskbyId: async (id: number): Promise<any> => {
+    const response = await axiosAuth.get(`${api}/task/${id}`);
+    return response?.data;
+  },
+  updateTask: async (id: number, data: Task): Promise<any> => {
+    const response = await axiosAuth.patch(`${api}/task/${id}`, data);
+    return response?.data.task;
+  },
 };
