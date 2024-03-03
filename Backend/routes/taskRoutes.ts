@@ -45,3 +45,15 @@ taskRoutes.delete("/:id", requestValidator(getTaskSchema), async (req, res) => {
   const response = await taskController.deleteTask(parseInt(id, 10));
   res.status(response.status).send(response);
 });
+
+taskRoutes.get("/search/:item", async (req, res) => {
+  const search = req.params.item as string;
+  const response = await taskController.getTaskBySearch(search);
+  res.status(response.status).send(response);
+});
+
+taskRoutes.get("/:field/:sortType", async (req, res) => {
+  const { field, sortType } = req.params;
+  const response = await taskController.getTaskBySort(field, sortType);
+  res.status(response.status).send(response);
+});

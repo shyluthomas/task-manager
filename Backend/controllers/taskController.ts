@@ -51,4 +51,26 @@ export const taskController = {
     }
     return { status: statusCode.HTTP_SUCESS, task: response.task };
   },
+  getTaskBySearch: async (search: string): Promise<ListTaskResponseDto> => {
+    const response: TaskListDto | null = await taskEntity.getTaskBySearch(
+      search
+    );
+    if (!response) {
+      return { status: statusCode.HTTP_NOTFOUND, task: null };
+    }
+    return { status: statusCode.HTTP_SUCESS, task: response };
+  },
+  getTaskBySort: async (
+    field: string,
+    sortType: string
+  ): Promise<ListTaskResponseDto> => {
+    const response: TaskListDto | null = await taskEntity.getTaskBySort(
+      field,
+      sortType
+    );
+    if (!response) {
+      return { status: statusCode.HTTP_NOTFOUND, task: null };
+    }
+    return { status: statusCode.HTTP_SUCESS, task: response };
+  },
 };

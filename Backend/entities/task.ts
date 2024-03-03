@@ -102,4 +102,47 @@ export const taskEntity = {
     }
     return { task: result, status: status };
   },
+  getTaskBySearch: async (search: string): Promise<TaskListDto | null> => {
+    try {
+      const tasks = await prisma.task.findMany({
+        where: {
+          OR: [
+            {
+              title: {
+                startsWith: search,
+              },
+            },
+            {
+              description: {
+                startsWith: search,
+              },
+            },
+          ],
+        },
+        orderBy: {
+          id: "asc",
+        },
+      });
+      return tasks;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  },
+  getTaskBySort: async (
+    field: string,
+    sortType: string
+  ): Promise<TaskListDto | null> => {
+    try {
+      const tasks = await prisma.task.findMany({
+        orderBy: {
+          [field]: sortType,
+        },
+      });
+      return tasks;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  },
 };
