@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { useAppDispatch } from "@/hooks/hooks";
+import { setNewTaskTrigger, setTaskSearch } from "@/store/reducers/taskReducer";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -28,7 +31,7 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-
+  const dispatch = useAppDispatch();
   const table = useReactTable({
     data,
     columns,
@@ -39,9 +42,29 @@ export function DataTable<TData, TValue>({
       sorting,
     },
   });
+  const newTask = () => {
+    dispatch(setNewTaskTrigger(true));
+  };
+  const searchTask = (searchText: string) => {
+    dispatch(setTaskSearch(searchText));
+  };
 
   return (
     <>
+      <div className="flex justify-between items-center py-4">
+        <Input
+          placeholder="Search title..."
+          onChange={(event: any) => {
+            console.log("first", event.target.value);
+            const search = event.target?.value;
+            searchTask(search);
+          }}
+          className="max-w-sm"
+        />
+        <div className="flex flex-column justify-between">
+          <Button onClick={() => newTask()}>+ Task</Button>
+        </div>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader className="text-blue-500 font-bold hover:none">

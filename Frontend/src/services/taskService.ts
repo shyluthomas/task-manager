@@ -24,4 +24,8 @@ export const taskService = {
     const response = await axiosAuth.delete(`${api}/task/${id}`);
     return response?.data;
   },
+  searchTask: async (searchText: string): Promise<any> => {
+    const response = await axiosAuth.get(`${api}/task/search/${searchText}`);
+    return response?.data;
+  },
 };

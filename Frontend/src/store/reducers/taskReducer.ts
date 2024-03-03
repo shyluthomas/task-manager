@@ -14,6 +14,7 @@ const initialState = {
   editTask: { status: false, task: undefined },
   confirmationSate: { status: false, messgae: "", okAction: {} },
   deleteTask: { status: false, id: undefined },
+  taskSearch: { searchText: null },
 };
 
 export const TaskSlice = createSlice({
@@ -51,6 +52,9 @@ export const TaskSlice = createSlice({
     setDeleteTask: (state, action) => {
       state.deleteTask = action.payload;
     },
+    setTaskSearch: (state, action) => {
+      state.taskSearch = action.payload;
+    },
   },
 });
 export const {
@@ -65,5 +69,6 @@ export const {
   updateTask,
   setConfirmationSate,
   setDeleteTask,
+  setTaskSearch,
 } = TaskSlice.actions;
 export default TaskSlice.reducer;

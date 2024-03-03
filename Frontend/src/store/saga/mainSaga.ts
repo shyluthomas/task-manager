@@ -80,12 +80,31 @@ function* _setDeleteTask(action: any): any {
   }
 }
 
+function* _setTaskSearch(action: any): any {
+  try {
+    const searchText = action.payload;
+    let taskList;
+    if (searchText) {
+      taskList = yield taskService.searchTask(searchText);
+      yield put(
+        task.updateTaskList({ status: "success", task: taskList.task })
+      );
+    } else {
+      taskList = yield taskService.listTask();
+      yield put(task.updateTaskList({ status: "success", task: taskList }));
+    }
+  } catch (e) {
+    yield put(task.updateTaskList({ status: "failed", task: [] }));
+  }
+}
+
 function* mainSaga() {
   yield takeEvery(task.fetchTaskList, _fetchTaskList);
   yield takeEvery(task.setNewTask, _setNewTask);
   yield takeLatest(task.setEditTask, _setEditTask);
   yield takeLatest(task.updateTask, _updateTask);
   yield takeLatest(task.setDeleteTask, _setDeleteTask);
+  yield takeLatest(task.setTaskSearch, _setTaskSearch);
 }
 
 export default mainSaga;
