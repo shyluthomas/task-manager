@@ -1,0 +1,8 @@
+version: "3"
+services:
+  taskfrontend:
+    build:
+      context: .
+      dockerfile: DockerfileFrontend
+    ports:
+      - "5555:5555"

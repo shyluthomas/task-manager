@@ -4,3 +4,4 @@ Backend/.DS_store
 Frontend/node_modules
 Frontend/.DS_store
 .DS_store
+Frontend/dist

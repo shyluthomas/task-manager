@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import { useAppDispatch } from "@/hooks/hooks";
 import { updateTask } from "@/store/reducers/taskReducer";
 import { editTask, editTaskData } from "@/types";
 

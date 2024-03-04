@@ -12,4 +12,12 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["react-alert-dialog"],
   },
+  server: {
+    port: 5555,
+    host:true
+  },
+  preview: {
+    port: 5555,
+    host:true
+  }
 });

@@ -16,7 +16,7 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "start": "nodemon",
+    "start": "npx prisma migrate dev && nodemon",
     "pretify": "npx prettier --write .",
     "studio": "npx prisma studio",
     "migrate": "npx prisma migrate dev"
