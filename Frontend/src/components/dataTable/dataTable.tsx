@@ -5,6 +5,7 @@ import {
   useReactTable,
   getSortedRowModel,
   SortingState,
+  getPaginationRowModel
 } from "@tanstack/react-table";
 
 import {
@@ -15,6 +16,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -31,6 +38,8 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] =
+    useState<any>({})
   const dispatch = useAppDispatch();
   const table = useReactTable({
     data,
@@ -38,8 +47,11 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
+      columnVisibility
     },
   });
   const newTask = () => {
@@ -61,18 +73,49 @@ export function DataTable<TData, TValue>({
           }}
           className="max-w-sm"
         />
+        <div className="flex gap-2">
+          <DropdownMenu >
+            <DropdownMenuTrigger asChild>
+              <Button >
+                Columns
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter(
+                  (column) => column.getCanHide()
+                )
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  )
+                })}
+            </DropdownMenuContent>
+        </DropdownMenu>
         <div className="flex flex-column justify-between">
           <Button onClick={() => newTask()}>+ Task</Button>
         </div>
+        </div>
+        
       </div>
       <div className="rounded-md border">
         <Table>
-          <TableHeader className="text-blue-500 font-bold hover:none">
+          <TableHeader >
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} >
                       {header.isPlaceholder
                         ? null
                         : flexRender(

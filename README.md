@@ -19,6 +19,9 @@ Create an MVP Dockerised task manager application with an API and a frontend int
   - API will available at : http://localhost:8001
   - API helath at : http://localhost:8001/health
 
+ # Postman Collection for the reference
+ 
+  - https://github.com/shyluthomas/task-manager/wiki/Backend-:-API-Collection
 
   # Frontend Setup
 

@@ -24,7 +24,7 @@ const TaskList = (): JSX.Element => {
   }, [message]);
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="flex w-full mx-auto p-10">
       <Card className="w-full">
         <CardHeader>
           <CardTitle>Task List</CardTitle>
